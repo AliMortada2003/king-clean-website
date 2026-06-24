@@ -6,7 +6,7 @@ import {
 } from "./auth-session";
 import type { ApiErrorResponse, MediaAssetDto } from "../types/api";
 
-const DEFAULT_API_ORIGIN = "http://localhost:5048";
+const DEFAULT_API_ORIGIN = "https://cleankingapi.codespark-eg.com";
 export type ApiAuthMode = "public" | "admin" | "client";
 
 export function normalizeApiOrigin(value?: string) {

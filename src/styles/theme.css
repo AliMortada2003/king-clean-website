@@ -1,0 +1,99 @@
+:root {
+  color-scheme: light;
+
+  /* Base */
+  --color-bg: #f8fbfa;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f0f6f6;
+  --color-text: #071f2f;
+  --color-muted: #667985;
+  --color-border: #dce8e9;
+
+  /* Brand */
+  --color-primary: #e0a52b;
+  --color-primary-dark: #a96706;
+  --color-primary-soft: #fff4d8;
+
+  --color-accent: #0f7a82;
+  --color-accent-soft: #e7f7f8;
+
+  --color-ink: #071f2f;
+  --color-navy: #061724;
+  --color-navy-soft: #0b2b3f;
+
+  --color-teal: #0f7a82;
+  --color-gold: #e0a52b;
+  --color-gold-dark: #a96706;
+
+  /* States */
+  --color-danger: #c93636;
+  --color-success: #16835f;
+
+  /* Aliases */
+  --color-soft: var(--color-surface-soft);
+  --color-mist: #edf7f7;
+  --color-line: var(--color-border);
+  --color-overlay: rgba(5, 22, 34, 0.5);
+
+  /* WhatsApp */
+  --color-whatsapp: #16835f;
+  --color-whatsapp-soft: #e8f8f1;
+
+  /* Layout */
+  --header-height: 86px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+
+  /* Shadows */
+  --shadow-soft: 0 18px 50px rgba(7, 31, 47, 0.08);
+  --shadow-strong: 0 26px 80px rgba(7, 31, 47, 0.15);
+  --shadow-glow: 0 20px 70px rgba(224, 165, 43, 0.18);
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Base - softer navy dark mode */
+  --color-bg: #112233;
+  --color-surface: #162b3d;
+  --color-surface-soft: #1d3549;
+  --color-text: #f4fbfc;
+  --color-muted: #b8cbd3;
+  --color-border: rgba(229, 244, 246, 0.16);
+
+  /* Brand */
+  --color-primary: #f3bd49;
+  --color-primary-dark: #e0a52b;
+  --color-primary-soft: rgba(243, 189, 73, 0.15);
+
+  --color-accent: #61d8d2;
+  --color-accent-soft: rgba(97, 216, 210, 0.14);
+
+  --color-ink: #f4fbfc;
+  --color-navy: #102131;
+  --color-navy-soft: #183149;
+
+  --color-teal: #61d8d2;
+  --color-gold: #f3bd49;
+  --color-gold-dark: #e0a52b;
+
+  /* States */
+  --color-danger: #ff8585;
+  --color-success: #65e3ad;
+
+  /* Aliases */
+  --color-soft: #1a3145;
+  --color-mist: #1d3549;
+  --color-line: var(--color-border);
+  --color-overlay: rgba(10, 25, 38, 0.72);
+
+  /* WhatsApp */
+  --color-whatsapp: #4fd18c;
+  --color-whatsapp-soft: rgba(79, 209, 140, 0.14);
+
+  /* Shadows */
+  --shadow-soft: 0 18px 54px rgba(3, 13, 22, 0.28);
+  --shadow-strong: 0 28px 90px rgba(3, 13, 22, 0.42);
+  --shadow-glow: 0 22px 78px rgba(243, 189, 73, 0.16);
+}

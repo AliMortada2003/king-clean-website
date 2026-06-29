@@ -75,7 +75,7 @@ function AboutBand({
     whatsApp,
     reversed = false,
 }: AboutBandProps) {
-    const image ="/images/hero-section/main-image.png";
+    const image ="https://newlms1.b-cdn.net/king-clean/sections/20260629182205-73240239d4f946459ecdc2a088e539f4.png";
 
     const wa = whatsAppUrl(whatsApp);
 

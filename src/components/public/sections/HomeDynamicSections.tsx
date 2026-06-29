@@ -1,4 +1,4 @@
-import { ArrowLeft, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowLeft, CheckCircle2, CheckCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { resolveMediaUrl } from "../../../lib/api-client";
@@ -76,7 +76,7 @@ function HomeDynamicSection({ section, reversed }: HomeDynamicSectionProps) {
         >
           <div>
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--color-primary)_24%,transparent)] bg-[color-mix(in_srgb,var(--color-surface)_82%,transparent)] px-4 py-2 text-sm font-black text-[var(--color-primary-dark)] shadow-sm backdrop-blur dark:text-[var(--color-gold)]">
-              <Sparkles size={17} />
+              <CheckCheck size={17} />
               KING CLEAN
             </div>
 
@@ -122,7 +122,7 @@ function HomeDynamicSection({ section, reversed }: HomeDynamicSectionProps) {
                   />
                 ) : (
                   <img
-                    className="aspect-[4/3] w-full rounded-[24px] object-cover"
+                    className="w-full rounded-[24px] object-cover"
                     src={image}
                     alt={section.title}
                     loading="lazy"

@@ -26,7 +26,7 @@ export function HomeAreasSection() {
                 ) : areas.isError ? (
                     <ErrorState error={areas.error} retry={areas.refetch} />
                 ) : areas.data?.length ? (
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 ">
                         {areas.data.map((area) => (
                             <Link
                                 key={area.id}

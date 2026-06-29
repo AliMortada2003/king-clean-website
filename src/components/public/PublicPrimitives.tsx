@@ -76,7 +76,7 @@ export const mediaTileClass =
 export const mediaOverlayClass =
   "absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-[rgba(1,24,38,0.94)] via-[rgba(1,24,38,0.72)] to-transparent p-6 text-white";
 
-import { FaChevronLeft } from "react-icons/fa";
+import { FaChevronLeft, FaHollyBerry } from "react-icons/fa";
 
 export function PageHero({
   title,
@@ -116,7 +116,7 @@ export function PageHero({
       </div>
     </section>
   );
-} 
+}
 
 export function SectionHeading({
   title,
@@ -177,7 +177,7 @@ export function ServiceCard({
             />
           ) : (
             <div className="grid h-full w-full place-items-center bg-gradient-to-br from-[var(--color-teal)] to-[var(--color-navy)]">
-              <Sparkles className="h-14 w-14 text-[var(--color-primary)]" />
+              <FaHollyBerry className="h-14 w-14 text-[var(--color-primary)]" />
             </div>
           )}
         </div>

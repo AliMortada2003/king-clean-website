@@ -34,10 +34,23 @@ export function ServicesPage() {
   return (
     <>
       <Seo
-        title="خدماتنا | KING CLEAN"
-        description={pageDescription}
+        title="خدمات التنظيف في الكويت | كينج كلين King Clean"
+        description="اكتشف خدمات كينج كلين الكويت: تنظيف منازل، شقق، فلل، مكاتب، كنب، سجاد، عماير، تنظيف عميق وتعقيم بمواعيد مرنة داخل الكويت."
+        canonicalPath="/services"
+        keywords={[
+          "خدمات تنظيف الكويت",
+          "كينج كلين",
+          "King Clean",
+          "شركة تنظيف في الكويت",
+          "تنظيف منازل الكويت",
+          "تنظيف شقق الكويت",
+          "تنظيف فلل الكويت",
+          "تنظيف مكاتب الكويت",
+          "تنظيف كنب الكويت",
+          "تنظيف سجاد الكويت",
+          "تنظيف عماير الكويت",
+        ]}
       />
-
       <PageHero
         title={pageTitle}
         description={pageDescription}

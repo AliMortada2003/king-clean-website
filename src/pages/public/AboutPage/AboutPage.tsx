@@ -17,7 +17,6 @@ import {
   sectionTitleClass,
 } from "../../../components/public/PublicPrimitives";
 import { HomeDynamicSections } from "../../../components/public/sections/HomeDynamicSections";
-import { resolveMediaUrl } from "../../../lib/api-client";
 import { whatsAppUrl } from "../../../lib/format";
 
 const knownAboutSectionKeys = ["about.hero", "about.main", "about.cta"];
@@ -44,24 +43,32 @@ export function AboutPage() {
     hero?.body ||
     "KING CLEAN لخدمات التنظيف والتعقيم في الكويت باهتمام حقيقي بالتفاصيل.";
 
-  const mainTitle ="عناية بالتفاصيل من أول تواصل";
+  const mainTitle = "عناية بالتفاصيل من أول تواصل";
 
   const mainText =
     main?.body ||
     settings.data?.aboutText ||
     "في KING CLEAN نساعدك في الحصول على مساحة أنظف وأكثر راحة من خلال خدمات تنظيف مرنة تناسب المنازل والشقق والفلل والمكاتب، مع اهتمام بالتفاصيل وجودة التنفيذ.";
 
-  const mainImage ="/images/king-clean-hero.png";
+  const mainImage = "/images/king-clean-hero.png";
 
   const wa = whatsAppUrl(settings.data?.whatsApp);
 
   return (
     <>
       <Seo
-        title="من نحن | KING CLEAN"
-        description={mainText}
+        title="من نحن | كينج كلين الكويت | King Clean Kuwait"
+        description="تعرف على كينج كلين الكويت، شركة تنظيف تقدم خدمات تنظيف المنازل والشقق والفلل والمكاتب داخل الكويت، مع فريق يهتم بالتفاصيل ومواعيد مرنة."
+        canonicalPath="/about"
+        keywords={[
+          "كينج كلين",
+          "King Clean",
+          "King Clean Kuwait",
+          "شركة تنظيف في الكويت",
+          "من نحن كينج كلين",
+          "خدمات تنظيف الكويت",
+        ]}
       />
-
       <PageHero
         title={pageTitle}
         description={pageDescription}

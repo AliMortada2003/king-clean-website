@@ -8,6 +8,7 @@ import { ThemeToggle } from "../ThemeToggle";
 import { useSettings } from "../../api/hooks";
 import { whatsAppUrl } from "../../lib/format";
 import { containerClass, iconButtonClass } from "./PublicPrimitives";
+import { FloatingIcons } from "./FloatingIcons";
 
 const nav = [
   ["/", "الرئيسية"],
@@ -33,34 +34,6 @@ export function PublicLayout() {
 
   const wa = whatsAppUrl(settings?.whatsApp);
   const close = () => setOpen(false);
-
-  const socialLinks = [
-    wa
-      ? {
-        label: "تواصل عبر واتساب",
-        href: wa,
-        icon: FaWhatsapp,
-        className: "bg-[#16835f] hover:bg-[#12714f]",
-      }
-      : null,
-    settings?.instagramUrl
-      ? {
-        label: "تابعنا على إنستجرام",
-        href: settings.instagramUrl,
-        icon: FaInstagram,
-        className:
-          "bg-[linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)] hover:brightness-110",
-      }
-      : null,
-    settings?.facebookUrl
-      ? {
-        label: "تابعنا على فيسبوك",
-        href: settings.facebookUrl,
-        icon: FaFacebookF,
-        className: "bg-[#1877f2] hover:bg-[#0f65d8]",
-      }
-      : null,
-  ].filter(Boolean);
   return (
     <div className="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
       <header className="fixed inset-x-0 top-0 z-50 h-[var(--header-height)] overflow-hidden border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-surface)_88%,transparent)] shadow-sm shadow-black/5 backdrop-blur-xl">
@@ -336,35 +309,7 @@ export function PublicLayout() {
           </div>
         </div>
       </footer>
-
-      <div className="fixed bottom-4 left-4 z-40 flex flex-col items-start gap-3 sm:bottom-5 sm:left-5">
-        <div className="fixed bottom-4 left-4 z-40 flex flex-col items-start gap-3 sm:bottom-5 sm:left-5">
-          <div className="flex flex-col-2 gap-2">
-            {socialLinks.map((item) => {
-              if (!item) return null;
-
-              const Icon = item.icon;
-
-              return (
-                <a
-                  key={item.label}
-                  className={[
-                    "group relative grid h-12 w-12 place-items-center rounded-full text-white shadow-xl shadow-black/15 transition hover:-translate-y-1 sm:h-14 sm:w-14",
-                    item.className,
-                  ].join(" ")}
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={item.label}
-                >
-                  <span className="absolute inset-0 rounded-full bg-white/20 opacity-0 blur-md transition group-hover:scale-125 group-hover:opacity-25" />
-                  <Icon className="relative z-10 text-2xl sm:text-3xl" />
-                </a>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+      <FloatingIcons settings={settings} />
     </div>
   );
 }

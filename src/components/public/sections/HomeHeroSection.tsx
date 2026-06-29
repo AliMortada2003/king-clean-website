@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, MessageCircle, ShieldCheck, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
-import { AnimatePresence, motion } from "motion/react";
 
 import { resolveMediaUrl } from "../../../lib/api-client";
 import { whatsAppUrl } from "../../../lib/format";
@@ -21,12 +20,6 @@ type HeroGalleryImage = {
 type HomeHeroSectionProps = {
     hero?: HomeCmsSection;
     settings?: HomeSettings;
-
-    /**
-     * مرر هنا صور المعرض من الصفحة الرئيسية.
-     * مثال:
-     * galleryImages={gallery?.items || gallery || []}
-     */
     galleryImages?: HeroGalleryImage[];
 };
 
@@ -36,6 +29,9 @@ const heroStats = [
     "تنظيف وتعقيم",
     "ثقة وأمان",
 ];
+
+const DEFAULT_HERO_DESCRIPTION =
+    "أضخم شركة تنظيف في دولة الكويت\nفريق رجالي آسيوي مدرب على جميع أنواع التنظيف";
 
 export function HomeHeroSection({
     hero,
@@ -47,9 +43,10 @@ export function HomeHeroSection({
     const title = hero?.title || settings?.heroTitle || "شركة تنظيف في الكويت";
 
     const subtitle =
-        hero?.subtitle ||
-        settings?.heroSubtitle ||
-        "خدمات تنظيف وتعقيم وتعطير للمنازل والشقق والفلل والمكاتب";
+        hero?.subtitle || settings?.heroSubtitle || DEFAULT_HERO_DESCRIPTION;
+
+    const ctaText = hero?.ctaText || "اطلب خدمة";
+    const ctaUrl = hero?.ctaUrl || "/request-service";
 
     const wa = whatsAppUrl(settings?.whatsApp);
 
@@ -61,9 +58,9 @@ export function HomeHeroSection({
             .map((item) => resolveMediaUrl(item.imageUrl))
             .filter(Boolean) as string[];
 
-        const slides = [fallbackHeroImage, ...gallerySlides];
-
-        return Array.from(new Set(slides)).filter(Boolean);
+        return Array.from(new Set([fallbackHeroImage, ...gallerySlides])).filter(
+            Boolean,
+        );
     }, [fallbackHeroImage, galleryImages]);
 
     useEffect(() => {
@@ -80,24 +77,28 @@ export function HomeHeroSection({
         return () => window.clearInterval(interval);
     }, [heroSlides.length]);
 
-    const currentImage = heroSlides[activeSlide] || fallbackHeroImage;
-
     return (
         <section className="relative min-h-[calc(100svh-var(--header-height))] overflow-hidden bg-[var(--color-bg)]">
-            {/* Background slider */}
+            {/* Background slider - CSS only */}
             <div className="absolute inset-0">
-                <AnimatePresence mode="sync">
-                    <motion.img
-                        key={currentImage}
-                        className="absolute inset-0 h-full w-full object-cover object-center"
-                        src={currentImage}
-                        alt="خدمات تنظيف KING CLEAN في الكويت"
-                        initial={{ opacity: 0, scale: 1.06 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 1.02 }}
-                        transition={{ duration: 1.25, ease: "easeOut" }}
+                {heroSlides.map((slide, index) => (
+                    <img
+                        key={slide}
+                        className={`absolute inset-0 h-full w-full object-cover object-center transition-[opacity,transform] duration-1000 ease-out ${activeSlide === index
+                                ? "scale-100 opacity-100"
+                                : "scale-[1.03] opacity-0"
+                            }`}
+                        src={slide}
+                        alt={
+                            index === 0
+                                ? "خدمات تنظيف KING CLEAN في الكويت"
+                                : `صورة من أعمال KING CLEAN رقم ${index + 1}`
+                        }
+                        loading={index === 0 ? "eager" : "lazy"}
+                        decoding="async"
+                        fetchPriority={index === 0 ? "high" : "auto"}
                     />
-                </AnimatePresence>
+                ))}
             </div>
 
             {/* Main overlays */}
@@ -105,97 +106,57 @@ export function HomeHeroSection({
 
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,color-mix(in_srgb,var(--color-primary)_22%,transparent),transparent_34%),radial-gradient(circle_at_82%_74%,color-mix(in_srgb,var(--color-teal)_18%,transparent),transparent_36%),linear-gradient(to_bottom,color-mix(in_srgb,var(--color-bg)_8%,transparent),color-mix(in_srgb,var(--color-bg)_36%,transparent))]" />
 
-            {/* Soft decorative bubbles */}
-            <div className="pointer-events-none absolute left-[8%] top-[18%] hidden h-20 w-20 rounded-full border border-white/25 bg-white/10 backdrop-blur-sm lg:block" />
-            <div className="pointer-events-none absolute bottom-[16%] left-[18%] hidden h-10 w-10 rounded-full border border-white/25 bg-white/10 backdrop-blur-sm lg:block" />
-            <div className="pointer-events-none absolute bottom-[26%] right-[8%] h-16 w-16 rounded-full bg-[var(--color-teal)]/10 blur-2xl" />
-
             <div className="relative z-10 mx-auto flex min-h-[calc(100svh-var(--header-height))] w-full max-w-7xl items-center px-4 py-12 sm:px-6 lg:px-8">
-                <motion.div
-                    className="max-w-2xl"
-                    initial={{ opacity: 0, y: 28 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-                >
-                    <motion.h1
-                        className="font-display text-3xl font-black leading-tight text-[var(--color-text)]  md:text-5xl"
-                        initial={{ opacity: 0, y: 18 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.65, delay: 0.36 }}
-                    >
+                <div className="max-w-2xl">
+                    <h1 className="font-display text-3xl font-black leading-tight text-[var(--color-text)] md:text-5xl">
                         {title}
-                    </motion.h1>
+                    </h1>
 
-                    <motion.p
-                        className="mt-6 max-w-xl text-base font-bold leading-8 text-[var(--color-muted)] sm:text-lg lg:text-xl lg:leading-10"
-                        initial={{ opacity: 0, y: 18 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.65, delay: 0.46 }}
-                    >
+                    <p className="mt-6 max-w-xl whitespace-pre-line text-base font-bold leading-8 text-[var(--color-muted)] sm:text-lg lg:text-xl lg:leading-10">
                         {subtitle}
-                    </motion.p>
+                    </p>
 
-                    <motion.div
-                        className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap"
-                        initial={{ opacity: 0, y: 18 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.65, delay: 0.56 }}
-                    >
-                        <motion.div
-                            whileHover={{ y: -3, scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            transition={{ duration: 0.2 }}
-                        >
-                            <Link
-                                className={`${primaryButtonClass} group relative min-h-14 overflow-hidden px-7 sm:text-base`}
-                                to={hero?.ctaUrl || "/request-service"}
+                    <div className="mt-6 flex flex-wrap gap-2.5">
+                        {heroStats.map((stat) => (
+                            <span
+                                key={stat}
+                                className="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)]/80 px-4 py-2 text-sm font-black text-[var(--color-text)] shadow-sm backdrop-blur"
                             >
-                                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition duration-700 group-hover:translate-x-full" />
-                                <span className="relative z-10">{hero?.ctaText || "اطلب خدمة"}</span>
-                                <ArrowLeft className="relative z-10 transition group-hover:-translate-x-1" size={19} />
-                            </Link>
-                        </motion.div>
+                                <ShieldCheck size={16} className="text-[var(--color-primary)]" />
+                                {stat}
+                            </span>
+                        ))}
+                    </div>
+
+                    <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                        <Link
+                            className={`${primaryButtonClass} group relative min-h-14 overflow-hidden px-7 transition duration-300 hover:-translate-y-1 sm:text-base`}
+                            to={ctaUrl}
+                        >
+                            <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition duration-700 group-hover:translate-x-full" />
+                            <span className="relative z-10">{ctaText}</span>
+                            <ArrowLeft
+                                className="relative z-10 transition group-hover:-translate-x-1"
+                                size={19}
+                            />
+                        </Link>
 
                         {wa && (
-                            <motion.div
-                                whileHover={{ y: -3, scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                transition={{ duration: 0.2 }}
+                            <a
+                                className={`${secondaryButtonClass} group relative min-h-14 overflow-hidden px-7 transition duration-300 hover:-translate-y-1 sm:text-base`}
+                                href={wa}
+                                target="_blank"
+                                rel="noreferrer"
                             >
-                                <a
-                                    className={`${secondaryButtonClass} group relative min-h-14 overflow-hidden px-7 sm:text-base`}
-                                    href={wa}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition duration-700 group-hover:translate-x-full" />
-                                    <MessageCircle className="relative z-10 transition group-hover:rotate-[-8deg]" size={20} />
-                                    <span className="relative z-10">تواصل واتساب</span>
-                                </a>
-                            </motion.div>
+                                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition duration-700 group-hover:translate-x-full" />
+                                <MessageCircle
+                                    className="relative z-10 transition group-hover:rotate-[-8deg]"
+                                    size={20}
+                                />
+                                <span className="relative z-10">تواصل واتساب</span>
+                            </a>
                         )}
-                    </motion.div>
-
-                    <motion.div
-                        className="mt-8 grid grid-cols-2 max-w-xl grid-cols-1 gap-3 "
-                        initial={{ opacity: 0, y: 18 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.65, delay: 0.66 }}
-                    >
-                        {heroStats.map((item, index) => (
-                            <motion.div
-                                key={item}
-                                className="group inline-flex items-center gap-2 rounded-2xl border border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-surface)_82%,transparent)] px-4 py-3 text-sm font-black text-[var(--color-muted)] shadow-sm backdrop-blur transition hover:-translate-y-1 hover:border-[color-mix(in_srgb,var(--color-primary)_35%,transparent)] hover:bg-[color-mix(in_srgb,var(--color-surface)_92%,transparent)] hover:shadow-lg"
-                                whileHover={{ y: -4 }}
-                                transition={{ duration: 0.2, delay: index * 0.03 }}
-                            >
-                                <span className="grid  h-8 w-8 place-items-center rounded-full text-emerald-500 bg-slate-100 dark:bg-white/15 group-hover:scale-110">
-                                    <ShieldCheck size={16} />
-                                </span>
-                                {item}
-                            </motion.div>
-                        ))}
-                    </motion.div>
+                    </div>
 
                     {heroSlides.length > 1 && (
                         <div className="mt-7 flex items-center gap-2">
@@ -213,7 +174,7 @@ export function HomeHeroSection({
                             ))}
                         </div>
                     )}
-                </motion.div>
+                </div>
             </div>
         </section>
     );

@@ -1,5 +1,4 @@
-import { useSearchParams } from "react-router-dom";
-import { useGallery } from "../../../api/hooks";
+import { useGallery, useServices } from "../../../api/hooks";
 import { Seo } from "../../../components/Seo";
 import {
   containerClass,
@@ -11,38 +10,34 @@ import {
 } from "../../../components/public/PublicPrimitives";
 import { EmptyState, ErrorState, PageLoading } from "../../../components/ui";
 import { resolveMediaUrl } from "../../../lib/api-client";
-import { MediaFilters } from "../../../types/api";
-import { MediaFiltersBar } from "../MediaFiltersBar/MediaFiltersBar";
 
 export function GalleryPage() {
-  const [params, setParams] = useSearchParams();
-  const filters: MediaFilters = {
-    serviceId: params.get("serviceId")
-      ? Number(params.get("serviceId"))
-      : undefined,
-    areaId: params.get("areaId") ? Number(params.get("areaId")) : undefined,
-  };
-  const setFilters = (next: MediaFilters) => {
-    const search = new URLSearchParams();
-    if (next.serviceId) search.set("serviceId", String(next.serviceId));
-    if (next.areaId) search.set("areaId", String(next.areaId));
-    setParams(search);
-  };
-  const query = useGallery(filters);
-
+  const query = useGallery();
   return (
     <>
       <Seo
-        title="معرض أعمال KING CLEAN"
-        description="صور مختارة من أعمال وخدمات KING CLEAN في الكويت."
+        title="معرض أعمال كينج كلين الكويت | King Clean Gallery"
+        description="شاهد صور من أعمال كينج كلين الكويت في تنظيف المنازل والشقق والفلل والمكاتب وخدمات التنظيف المختلفة داخل الكويت."
+        canonicalPath="/gallery"
+        keywords={[
+          "معرض أعمال كينج كلين",
+          "King Clean Gallery",
+          "صور تنظيف في الكويت",
+          "شركة تنظيف في الكويت",
+          "تنظيف منازل الكويت",
+          "تنظيف شقق الكويت",
+          "تنظيف فلل الكويت",
+          "تنظيف مكاتب الكويت",
+        ]}
       />
+
       <PageHero
         title="معرض الأعمال"
-        description="تصفح صور الأعمال حسب الخدمة أو المنطقة."
+      // description="شوف جزء من شغل كينج كلين في خدمات التنظيف داخل الكويت."
       />
+
       <section className={sectionClass}>
         <div className={containerClass}>
-          <MediaFiltersBar filters={filters} setFilters={setFilters} />
           {query.isLoading ? (
             <PageLoading />
           ) : query.isError ? (
@@ -57,23 +52,32 @@ export function GalleryPage() {
                   <img
                     className="absolute inset-0 h-full w-full object-cover transition duration-500 hover:scale-105"
                     src={resolveMediaUrl(item.imageUrl)}
-                    alt={item.title}
-                    onError={(e) => (e.currentTarget.style.display = "none")}
+                    alt={item.title || "صورة من أعمال كينج كلين الكويت"}
+                    loading="lazy"
+                    decoding="async"
+                    onError={(event) => {
+                      event.currentTarget.style.display = "none";
+                    }}
                   />
+
                   <div className={mediaOverlayClass}>
                     <strong className="font-display block text-lg">
-                      {item.title}
+                      {item.title || "من أعمال كينج كلين"}
                     </strong>
-                    <div className="mt-2 text-sm font-bold text-white/78">
-                      {item.serviceName}
-                      {item.areaName ? ` · ${item.areaName}` : ""}
-                    </div>
+
+                    {(item.serviceName || item.areaName) && (
+                      <div className="mt-2 text-sm font-bold text-white/78">
+                        {item.serviceName}
+                        {item.serviceName && item.areaName ? " · " : ""}
+                        {item.areaName}
+                      </div>
+                    )}
                   </div>
                 </article>
               ))}
             </div>
           ) : (
-            <EmptyState title="لا توجد صور مطابقة" />
+            <EmptyState title="لا توجد صور في المعرض حاليا" />
           )}
         </div>
       </section>

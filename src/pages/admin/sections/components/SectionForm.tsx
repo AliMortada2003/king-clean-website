@@ -379,24 +379,6 @@ export function SectionForm({ item, onSaved, onClose }: SectionFormProps) {
           )}
         </div>
 
-        <div>
-          <label className={labelClass} htmlFor="displayOrder">
-            ترتيب العرض
-          </label>
-
-          <input
-            id="displayOrder"
-            className={inputClass}
-            type="number"
-            min={0}
-            {...register("displayOrder", { valueAsNumber: true })}
-          />
-
-          {errors.displayOrder && (
-            <span className={errorClass}>{errors.displayOrder.message}</span>
-          )}
-        </div>
-
         <label className={`${checkboxClass} self-end`}>
           <input
             className="h-4 w-4 rounded border-[var(--color-border)] accent-[var(--color-primary)]"
@@ -406,22 +388,8 @@ export function SectionForm({ item, onSaved, onClose }: SectionFormProps) {
 
           <span>القسم منشور</span>
         </label>
-
-        <div className="md:col-span-2">
-          <label className={labelClass} htmlFor="body">
-            النص
-          </label>
-
-          <textarea id="body" className={textareaClass} {...register("body")} />
-
-          {errors.body && (
-            <span className={errorClass}>{errors.body.message}</span>
-          )}
-        </div>
-
         <div>
           <label className={labelClass}>الصورة</label>
-
           <MediaUrlField
             value={watch("imageUrl")}
             onChange={(value) =>
@@ -457,80 +425,6 @@ export function SectionForm({ item, onSaved, onClose }: SectionFormProps) {
           {errors.videoUrl && (
             <span className={errorClass}>{errors.videoUrl.message}</span>
           )}
-        </div>
-
-        <div className="md:col-span-2">
-          <div className="rounded-[26px] border border-[var(--color-border)] bg-[var(--color-surface-soft)] p-4">
-            <div className="mb-4">
-              <label className={labelClass}>عناصر إضافية داخل السكشن</label>
-              <p className="m-0 text-xs font-bold leading-6 text-[var(--color-muted)]">
-                استخدمها مثلًا في سكشن “ليه تختارنا” لإضافة نقاط مثل: فريق موثوق، مواعيد مرنة، اهتمام بالتفاصيل.
-              </p>
-            </div>
-
-            <div className="grid gap-3 md:grid-cols-[1fr_1.4fr_auto]">
-              <input
-                className={inputClass}
-                value={payloadTitle}
-                onChange={(event) => setPayloadTitle(event.target.value)}
-                placeholder="عنوان العنصر"
-              />
-
-              <input
-                className={inputClass}
-                value={payloadDescription}
-                onChange={(event) => setPayloadDescription(event.target.value)}
-                placeholder="وصف العنصر"
-              />
-
-              <button
-                type="button"
-                className={secondaryButtonClass}
-                onClick={addPayloadItem}
-              >
-                <Plus size={17} />
-                إضافة
-              </button>
-            </div>
-
-            {payloadItems.length > 0 && (
-              <div className="mt-4 grid gap-2">
-                {payloadItems.map((payloadItem, index) => (
-                  <div
-                    key={`${payloadItem.title}-${index}`}
-                    className="flex items-start justify-between gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-3"
-                  >
-                    <div className="min-w-0">
-                      {payloadItem.title && (
-                        <strong className="block text-sm font-black text-[var(--color-text)]">
-                          {payloadItem.title}
-                        </strong>
-                      )}
-
-                      {payloadItem.description && (
-                        <p className="m-0 mt-1 text-sm font-bold leading-6 text-[var(--color-muted)]">
-                          {payloadItem.description}
-                        </p>
-                      )}
-                    </div>
-
-                    <button
-                      type="button"
-                      className={dangerSmallButtonClass}
-                      onClick={() => removePayloadItem(index)}
-                      aria-label="حذف العنصر"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {errors.payloadJson && (
-              <span className={errorClass}>{errors.payloadJson.message}</span>
-            )}
-          </div>
         </div>
       </div>
 

@@ -6,8 +6,8 @@ import { UploadsPageHeader } from "./components/UploadsPageHeader";
 import { useUploadsPage } from "./hooks/useUploadsPage";
 
 export function UploadsPage() {
+  
   const page = useUploadsPage();
-
   return (
     <>
       <Seo

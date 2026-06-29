@@ -15,8 +15,16 @@ export function ReviewsPage() {
   return (
     <>
       <Seo
-        title="آراء عملاء KING CLEAN"
-        description="اقرأ آراء العملاء وتجاربهم مع خدمات KING CLEAN."
+        title="آراء عملاء كينج كلين الكويت | King Clean Reviews"
+        description="اقرأ آراء وتجارب عملاء كينج كلين الكويت مع خدمات تنظيف المنازل والشقق والفلل والمكاتب داخل الكويت."
+        canonicalPath="/reviews"
+        keywords={[
+          "آراء كينج كلين",
+          "تقييم شركة تنظيف في الكويت",
+          "King Clean Reviews",
+          "تجارب عملاء كينج كلين",
+          "شركة تنظيف موثوقة في الكويت",
+        ]}
       />
       <PageHero
         title="آراء عملائنا"

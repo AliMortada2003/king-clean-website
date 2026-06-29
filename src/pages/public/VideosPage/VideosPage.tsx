@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { FaExternalLinkAlt, FaPlay, FaTimes, FaVideo } from "react-icons/fa";
-import { useSearchParams } from "react-router-dom";
 
 import { useVideos } from "../../../api/hooks";
 import { Seo } from "../../../components/Seo";
@@ -12,8 +11,6 @@ import {
 } from "../../../components/public/PublicPrimitives";
 import { EmptyState, ErrorState, PageLoading } from "../../../components/ui";
 import { resolveMediaUrl } from "../../../lib/api-client";
-import { MediaFilters } from "../../../types/api";
-import { MediaFiltersBar } from "../MediaFiltersBar/MediaFiltersBar";
 
 type VideoItem = {
   id: number;
@@ -90,26 +87,9 @@ function getPreviewData(videoUrl?: string | null) {
 }
 
 export function VideosPage() {
-  const [params, setParams] = useSearchParams();
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
 
-  const filters: MediaFilters = {
-    serviceId: params.get("serviceId")
-      ? Number(params.get("serviceId"))
-      : undefined,
-    areaId: params.get("areaId") ? Number(params.get("areaId")) : undefined,
-  };
-
-  const setFilters = (next: MediaFilters) => {
-    const search = new URLSearchParams();
-
-    if (next.serviceId) search.set("serviceId", String(next.serviceId));
-    if (next.areaId) search.set("areaId", String(next.areaId));
-
-    setParams(search);
-  };
-
-  const query = useVideos(filters);
+  const query = useVideos();
 
   const closeModal = () => setSelectedVideo(null);
 
@@ -134,19 +114,28 @@ export function VideosPage() {
   return (
     <>
       <Seo
-        title="فيديوهات KING CLEAN"
-        description="شاهد فيديوهات خدمات التنظيف والأعمال المنفذة."
+        title="فيديوهات كينج كلين الكويت | King Clean Videos"
+        description="شاهد فيديوهات من أعمال وخدمات كينج كلين الكويت في تنظيف المنازل والشقق والفلل والمكاتب وخدمات التنظيف المختلفة."
+        canonicalPath="/videos"
+        keywords={[
+          "فيديوهات كينج كلين",
+          "King Clean Videos",
+          "فيديوهات تنظيف في الكويت",
+          "شركة تنظيف في الكويت",
+          "تنظيف منازل الكويت",
+          "تنظيف شقق الكويت",
+          "تنظيف فلل الكويت",
+          "تنظيف مكاتب الكويت",
+        ]}
       />
 
       <PageHero
         title="الفيديوهات"
-        description="مشاهد مختارة من خدماتنا، مع إمكانية التصفية حسب الخدمة والمنطقة."
+        description="مشاهد مختارة من خدمات كينج كلين وأعمال التنظيف داخل الكويت."
       />
 
       <section className={sectionClass}>
         <div className={containerClass}>
-          <MediaFiltersBar filters={filters} setFilters={setFilters} />
-
           {query.isLoading ? (
             <PageLoading />
           ) : query.isError ? (
@@ -168,8 +157,9 @@ export function VideosPage() {
                       <img
                         className="h-full w-full object-cover opacity-80 transition duration-700 group-hover:scale-110 group-hover:opacity-90"
                         src={resolveMediaUrl(item.thumbnailUrl)}
-                        alt={item.title}
+                        alt={item.title || "فيديو من أعمال كينج كلين الكويت"}
                         loading="lazy"
+                        decoding="async"
                         onError={(event) => {
                           event.currentTarget.style.opacity = "0";
                         }}
@@ -194,7 +184,7 @@ export function VideosPage() {
 
                   <div className="p-5">
                     <h2 className="font-display text-lg font-black text-[var(--color-text)]">
-                      {item.title}
+                      {item.title || "فيديو من أعمال كينج كلين"}
                     </h2>
 
                     {item.description && (
@@ -216,7 +206,7 @@ export function VideosPage() {
               ))}
             </div>
           ) : (
-            <EmptyState title="لا توجد فيديوهات مطابقة" />
+            <EmptyState title="لا توجد فيديوهات حاليا" />
           )}
         </div>
       </section>
@@ -236,7 +226,7 @@ export function VideosPage() {
             <div className="flex items-center justify-between gap-4 border-b border-[var(--color-border)] p-4 sm:p-5">
               <div>
                 <h2 className="font-display text-lg font-black text-[var(--color-text)] sm:text-xl">
-                  {selectedVideo.title}
+                  {selectedVideo.title || "فيديو من أعمال كينج كلين"}
                 </h2>
 
                 {selectedVideo.description && (
@@ -264,6 +254,14 @@ export function VideosPage() {
                   controls
                   autoPlay
                   playsInline
+                />
+              ) : preview.type === "iframe" ? (
+                <iframe
+                  title={selectedVideo.title || "فيديو كينج كلين"}
+                  src={preview.url}
+                  className="aspect-video w-full border-0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
                 />
               ) : (
                 <div className="grid aspect-video place-items-center p-6 text-center text-white">

@@ -174,19 +174,15 @@ export const useCreateClientRequest = () =>
       clientApi.createRequest(body),
   });
 
-export const useClientMe = (enabled = true) =>
-  useQuery({
-    queryKey: keys.clientMe,
-    queryFn: ({ signal }) => clientApi.me(signal),
-    enabled,
-    ...queryDefaults,
-  });
+
 export const useClientRequests = () =>
   useQuery({
     queryKey: keys.clientRequests,
     queryFn: ({ signal }) => clientApi.requests(signal),
     ...queryDefaults,
   });
+
+
 export const useClientRequest = (id: number) =>
   useQuery({
     queryKey: keys.clientRequest(id),
@@ -194,15 +190,7 @@ export const useClientRequest = (id: number) =>
     enabled: id > 0,
     ...queryDefaults,
   });
-export const useClientRegister = () =>
-  useMutation({
-    mutationFn: (body: ClientRegisterRequestDto) => clientApi.register(body),
-  });
-export const useClientResendConfirmation = () =>
-  useMutation({
-    mutationFn: (body: ClientResendConfirmationRequestDto) =>
-      clientApi.resendConfirmation(body),
-  });
+
 
 export const useDashboardStats = () =>
   useQuery({
